@@ -1,0 +1,38 @@
+body{
+    font-family: cursive;
+    background-color: black;
+    font-weight: bold;
+}
+.slika {
+    text-align: center;
+}
+.slika img {
+    width: 40%;
+    margin-top: 10%;
+}
+.video1, .video2 {
+   text-align: center;
+}
+iframe{
+    width: 50%;
+    height: 300px
+}
+.text{
+    text-align: center;
+    font-family: cursive;
+    font-weight: bold;
+    font-size: x-large;
+    color: black;
+}
+.form-control{
+    text-align: center;
+}
+.btn-outline-secondary{
+    margin-top: 5%;
+    margin: auto;
+    margin-left: 50%
+}
+.lijeva-strana{
+    height: 1000px;
+    background-color:#EAE6E6;
+}

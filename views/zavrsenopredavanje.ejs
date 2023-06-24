@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <link rel='stylesheet' href='/css/styles_sva_predavanja.css'>
+  <!-- Latest compiled and minified CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+  <!-- Latest compiled JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+  <link rel="stylesheet" href="/https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.2/font/bootstrap-icons.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <style>
+   body {
+     background-repeat: no-repeat;
+     background-image: url("<%=pozadina%>");
+     background-size: cover;
+     color:white;
+   }
+ </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg bg-light">
+  <div class="container-fluid" style="background-color:#EAE6E6">
+    <a class="navbar-brand" href="/" style="font-weight: bold; text-transform: uppercase"><%=naziv%></a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page">
+            <form method="post" action="/odjava2"><button type="submit" class="btn btn-success">Odjavi se</button>
+            </form>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+<br><br>
+<div class="container-fluid">
+  <div class="row">
+  <div class="col-sm-12 col-md-6 col-lg-6">
+    <div class="tekst1" style="margin-left: 3%">
+  <p style="font-weight: bold">INFORMACIJE O PREDAVANJU: </p>
+  <p style="font-weight: bold">Naziv predavanja: <%=naziv%> </p>
+      <p style="font-weight: bold">Kod za pristup: <%=kod%></p>
+    <p style="font-weight: bold">Vrijeme odrzavanja: <%=vrijeme%> </p>
+    <p style="font-weight: bold">Datum pocetka predavanja: <%=datum1%> </p>
+    <p style="font-weight: bold">Datum zavrsetka predavanja : <%=datum2%> </p>
+    <p style="font-weight: bold">Broj postavljenih pitanja: <%=p_pitanja%> </p>
+  <p style="font-weight: bold">Broj odgovorenih pitanja: <%=o_pitanja%> </p>
+    </div></div>
+    <div class="col-sm-12 col-md-6 col-lg-6">
+      <br>
+      <form action="/sortiraj_po_id/<%=id%>" method="get" id="forma1"></form>
+      <form action="/sortiraj_po_lajkovima/<%=id%>" method="get" id="forma2"></form>
+        <button form="forma1" style="margin-left:3%" type="submit" class="btn btn-info" >Sortiraj vremenski</button>
+         <button form="forma2" style="margin-left: 3%"  type="submit" class="btn btn-info" >Sortiraj po broju lajkova</button>
+      <button type="button" style="margin-left: 3%" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#mailModal" data-bs-whatever="@mdo">
+        Mailbox</button>
+      <div class="modal fade" id="mailModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <form action="/posaljiMail/<%=kod%>" method="post" style="color:black;">
+                <div class="mb-3">
+                  <label for="mail" class="col-form-label">Mail:</label>
+                  <input type="text" class="form-control" id="recipient-name" name="mail">
+                </div>
+                <div class="mb-3">
+                  <label for="poruka" class="col-form-label">Poruka:</label>
+                  <textarea class="form-control" id="message-text" name="poruka"></textarea>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zatvori</button>
+                  <button type="submit" class="btn btn-primary">Posalji mail</button>
+                </div>
+              </form>
+            </div></div>
+        </div>
+      </div>
+      <div class="row">
+      <div class="pitanja">
+        <table class="table-responsive" style="width: 30%";>
+          <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Pitanje</th>
+            <th scope="col">Lajkovi</th>
+          </tr>
+          </thead>
+          <tbody>
+          <%for (let i=0; i<sva_pitanja.length; i++){%>
+          <tr>
+            <td><%=sva_pitanja[i].id_pitanje%></td>
+            <td><%=sva_pitanja[i].pitanje%></td>
+            <td><%=sva_pitanja[i].lajkovi%></td>
+           <%}%>
+          </tr></tbody></table>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12 col-md-6 col-lg-6">
+      <table class="table-responsive">
+        <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Pitanje</th>
+          <th scope="col">Lajkovi</th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+          <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <%for (let i=0; i<niz_pitanja.length; i++){%>
+        <tr id="ne-odg-pitanja-<%=niz_pitanja[i].id_pitanje%>">
+          <td><%=niz_pitanja[i].id_pitanje%></td>
+          <td><%=niz_pitanja[i].pitanje%></td>
+          <td><%=niz_pitanja[i].lajkovi%></td>
+          <!--<td>
+            <button class="open-button" id="dugme" style="border-radius: 10px;background-color: maroon; color: white;
+                border-color: maroon;" onclick="openForm(<%=i%>)">ODGOVORI</button>
+            <div class="form-popup" id="myForm" style="display: none">
+              <form action="../predavanja/odgovori" method="post">
+                <label for="odgovor"><b>Odgovor: </b></label>
+                <input type="text" placeholder=" #unesi odgovor" name="odgovor" required style="border-radius: 13px;
+                                  width: 100%;">
+                <button type="submit" class="btn cancel" onclick="closeForm()"
+                        style="border-radius: 13px; background-color: #198754; color:white;
+                            border-color: #198754; margin: 3%">Posalji odgovor</button>
+              </form>
+            </div>
+          </td>-->
+          <td><button class="btn" onclick="obrisiNeodgovoreno('<%=niz_pitanja[i].id_pitanje%>')" id="dugmic">
+              <i class="bi bi-trash3-fill"></i>
+            </button></td>
+          <td><button class="btn" onclick="sakrijNeodgovoreno('<%=niz_pitanja[i].id_pitanje%>')" id="dugmic">
+              SAKRIJ</button></td>
+          <td><button class="btn" onclick="odgovoreno('<%=niz_pitanja[i].id_pitanje%>','<%=id%>')"><i class="bi bi-check2-circle"></i></button></td>
+        </tr><%}%>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-sm-12 col-md-6 col-lg-6">
+      <table class="table-responsive">
+            <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Pitanje</th>
+              <th scope="col">Lajkovi</th>
+              <th scope="col"></th>
+              <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody>
+            <%for (let i=0; i<odgovorena_pitanja.length; i++){%>
+            <tr id="odg-pitanja-<%=odgovorena_pitanja[i].id_pitanje%>">
+              <td><%=odgovorena_pitanja[i].id_pitanje%></td>
+              <td><%=odgovorena_pitanja[i].pitanje%></td>
+              <td><%=odgovorena_pitanja[i].lajkovi%></td>
+              <td><button class="btn" onclick="obrisiOdgovoreno('<%=odgovorena_pitanja[i].id_pitanje%>')" id="dugmic">
+                  <i class="bi bi-trash3-fill"></i>
+                </button></td>
+              <td><button class="btn" onclick="sakrijOdgovoreno('<%=odgovorena_pitanja[i].id_pitanje%>')" id="dugmic">
+                  SAKRIJ</button></td>
+            </tr>
+            <%}%>
+            </tbody>
+      </table>
+    </div></div>
+  <div class="row">
+    <div class="col-sm-12 col-md-8 col-lg-8">
+      <button type="button" class="btn btn-info" onclick="vidiSkrivenaPitanja()" id="prikazi">Prikazi skrivena pitanja</button>
+      <table class="table-responsive" id="skrivena_pitanja" style="display: none">
+        <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Pitanje</th>
+          <th scope="col"></th>
+        </tr>
+        </thead>
+        <tbody>
+        <%for (let i=0; i<skrivena_pitanja.length; i++){%>
+        <tr id="skr-pitanja-<%=skrivena_pitanja[i].id_pitanje%>">
+          <td><%=skrivena_pitanja[i].id_pitanje%></td>
+          <td><%=skrivena_pitanja[i].pitanje%></td>
+          <!--  <button class="open-button" onclick="openForm()" id="dugme" style="border-radius: 13px;background-color:maroon;
+                                            color:white; border-color: maroon">ODGOVORI</button>
+            <div class="form-popup" id="myForm" style="display: none">
+              <form action="../predavanja/odgovori/ method="post">
+                <label for="odgovor"><b>Odgovor: </b></label>
+                <input type="text" placeholder=" #unesi odgovor" name="odgovor" required style="border-radius: 13px;
+                                  width: 100%;">
+                <button type="submit" class="btn cancel" onclick="closeForm()" style="border-radius: 13px;background-color: #198754;
+                            color:white; border-color: #198754; margin: 3%;">Posalji odgovor</button>
+              </form>
+            </div>
+          </td>-->
+          <td><button class="btn" onclick="obrisiSkriveno('<%=skrivena_pitanja[i].id_pitanje%>')" id="dugmic">
+              <i class="bi bi-trash3-fill"></i>
+            </button></td>
+        </tr><%}%>
+        </tbody>
+      </table>
+      <button type="button" class="btn btn-info" onclick="sakrijSkrivenaPitanja()" id="sakrij"
+              style="display: none; margin-bottom: 5%;">Sakrij skrivena pitanja</button>
+    </div>
+  </div>
+  </div></div>
+
+<script src="/javascripts/sva_predavanja.js">
+</script>
+  </body>
+</html>

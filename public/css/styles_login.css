@@ -1,0 +1,12 @@
+.forma{
+    height: 500px;
+    margin-top: 10%;
+    width: 30%;
+    margin-left: 35%;
+    margin-right: 35%;
+    padding: 3%;
+    background-color:  #1D282D;
+    color: white;
+    border-radius: 25px;
+}
+
